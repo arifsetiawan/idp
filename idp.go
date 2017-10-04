@@ -212,7 +212,7 @@ func (idp *IDP) Connect(verifyTLS bool) error {
 }
 
 // Parse and verify the challenge JWT
-func (idp *IDP) getChallengeToken(challengeString string) (*jwt.Token, error) {
+func (idp *IDP) GetChallengeToken(challengeString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(challengeString, func(token *jwt.Token) (interface{}, error) {
 		_, ok := token.Method.(*jwt.SigningMethodRSA)
 		if !ok {
@@ -295,7 +295,7 @@ func (idp *IDP) NewChallenge(ctx context.Context, r *http.Request, user string) 
 		return
 	}
 
-	token, err := idp.getChallengeToken(tokenStr)
+	token, err := idp.GetChallengeToken(tokenStr)
 	if err != nil {
 		// Most probably, token can't be verified or parsed
 		return
